@@ -1,0 +1,50 @@
+import { useState } from "react";
+
+
+export default function BookingForm() {
+    const [pickup, setPickup] = useState("");
+    const [drop, setDrop] = useState("");
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        alert(`Ride booked from ${pickup} to ${drop}`);
+    };
+
+
+    return (
+        /*<div className="bg-white p-4 rounded-xl shadow-lg">*/
+        <div className="bg-white/90 rounded-2xl shadow-xl p-5 border border-gray-100 backdrop-blur-sm">
+            <h2 className="text-lg font-bold mb-3">Book a Ride</h2>
+            <form onSubmit={handleSubmit} className="space-y-3">
+                <input
+                    type="text"
+                    placeholder="Pickup Location"
+                    /*className="w-full p-2 border rounded"
+                    className="w-full p-3 border rounded-lg text-base"*/
+                    className="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                    value={pickup}
+                    onChange={(e) => setPickup(e.target.value)}
+                />
+
+
+                <input
+                    type="text"
+                    placeholder="Drop Location"
+                    /*className="w-full p-2 border rounded"
+                    className="w-full p-3 border rounded-lg text-base"*/
+                    className="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                    value={drop}
+                    onChange={(e) => setDrop(e.target.value)}
+                />
+
+
+                {/*<button className="fixed bottom-4 right-4 bg-yellow-500 text-black p-4 rounded-full shadow-xl md:hidden">
+                    className="bg-yellow-500 w-full p-2 rounded font-bold">*/}
+                <button className="w-full bg-yellow-500 hover:bg-yellow-600 transition text-black p-3 rounded-xl font-bold shadow-md">
+                    Book Ride  
+                </button>
+            </form>
+        </div>
+    );
+}
