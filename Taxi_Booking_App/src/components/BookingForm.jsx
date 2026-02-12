@@ -1,10 +1,35 @@
-import { useState } from "react";
+import { useEffect, useRef,useState } from "react";
 
 
 export default function BookingForm() {
     const [pickup, setPickup] = useState("");
     const [drop, setDrop] = useState("");
 
+    const pickupRef = useRef(null);
+    const dropRef = useRef(null);
+
+    useEffect(() => {
+        if (window.google) {
+        const pickupAutocomplete = new window.google.maps.places.Autocomplete(
+        pickupRef.current
+        );
+        const dropAutocomplete = new window.google.maps.places.Autocomplete(
+        dropRef.current
+        );
+        
+        
+        pickupAutocomplete.addListener("place_changed", () => {
+        const place = pickupAutocomplete.getPlace();
+        setPickup(place.formatted_address || "");
+        });
+        
+        
+        dropAutocomplete.addListener("place_changed", () => {
+        const place = dropAutocomplete.getPlace();
+        setDrop(place.formatted_address || "");
+        });
+        }
+        }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,6 +43,7 @@ export default function BookingForm() {
             <h2 className="text-lg font-bold mb-3">Book a Ride</h2>
             <form onSubmit={handleSubmit} className="space-y-3">
                 <input
+                    ref={pickupRef}
                     type="text"
                     placeholder="Pickup Location"
                     /*className="w-full p-2 border rounded"
@@ -30,6 +56,7 @@ export default function BookingForm() {
 
                 <input
                     type="text"
+                    ref={dropRef}
                     placeholder="Drop Location"
                     /*className="w-full p-2 border rounded"
                     className="w-full p-3 border rounded-lg text-base"*/
