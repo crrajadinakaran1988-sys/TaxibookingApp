@@ -4,10 +4,43 @@ import { useEffect, useRef,useState } from "react";
 export default function BookingForm() {
     const [pickup, setPickup] = useState("");
     const [drop, setDrop] = useState("");
+    const [errors, setErrors] = useState({ pickup: "", drop: "" });
 
     const pickupRef = useRef(null);
     const dropRef = useRef(null);
 
+    // VALIDATION FUNCTION
+const validateFields = () => {
+    let valid = true;
+    let newErrors = { pickup: "", drop: "" };
+    
+    if (!pickup.trim() && !drop.trim())  {
+        newErrors.pickup = "Pickup and Drop location is required";
+        alert(newErrors.pickup);
+        valid = false;
+        }
+    
+    else if (!pickup.trim()) {
+    newErrors.pickup = "Pickup location is required";
+    alert(newErrors.pickup);
+    valid = false;
+    }
+    else if (!drop.trim()) {
+    newErrors.drop = "Drop location is required";
+    alert(newErrors.drop);
+    valid = false;
+    }
+    if (pickup.trim() && drop.trim() && pickup.trim() === drop.trim()) {
+    newErrors.drop = "Pickup and drop cannot be the same";
+    alert(newErrors.drop);
+    valid = false;
+    }
+    
+    
+    setErrors(newErrors);
+    return valid;
+    };
+/*
     useEffect(() => {
         if (window.google) {
         const pickupAutocomplete = new window.google.maps.places.Autocomplete(
@@ -30,9 +63,10 @@ export default function BookingForm() {
         });
         }
         }, []);
-
+*/
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!validateFields()) return;
         alert(`Ride booked from ${pickup} to ${drop}`);
     };
 
